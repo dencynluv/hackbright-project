@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Sign Up Form -->
+    <h2>Sign Up</h2>
+
+    <form action="/process-sign-up" method="POST">
+        <div class="form-group">
+            <label>
+                First Name:
+                <input type="text" name="first-name">
+            </label>
+        </div>
+        <br>
+        <div class="form-group">
+            <label>
+                Last Name:
+                <input type="text" name="last-name">
+            </label>
+        </div>
+        <br>
+        <div class="form-group">
+            <label>
+                Email:
+                <input type="text" name="email">
+            </label>
+        </div>
+        <br>
+        <div class="form-group">
+            <label>
+                Password:
+                <input type="text" name="password">
+            </label>
+        </div>
+        <br>
+        <!-- Might need phone# from user for Twiilio API -->
+       <!--  <div class="form-group">
+            <label>
+                Phone number:
+                <input type="number" name="phone">
+            </label>
+        </div>
+        <br> -->
+        <div class="form-group">
+            <input type="submit" value="Sign Up">
+        </div>
+    </form>
+
+{% endblock %}
