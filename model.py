@@ -18,16 +18,23 @@ class User(db.Model):
     __tablename__ = "users"
 
     # creates columns in my "users" table
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(60), unique=True, nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
+    # Define relationship to Notebooks class,
+    # go thru notebook_users table, to get to users table
+    # can go backwards thru users table to notebooks table
+    notebook = db.relationship("Notebook",
+                               secondary="notebook_users",
+                               backref="users")
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<User id=%s first_name=%s last_name=%s email=%s>" % (self.id, self.first_name, self.last_name, self.email)
+        return "<User id=%s first_name=%s last_name=%s email=%s>" % (self.user_id, self.first_name, self.last_name, self.email)
 
 
 class Notebook(db.Model):
@@ -36,29 +43,37 @@ class Notebook(db.Model):
     __tablename__ = "notebooks"
 
     # creates columns in my "notebooks" table
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    title = db.Column(db.String(50), nullable=False)
+    notebook_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    title = db.Column(db.String(50), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Notebook id=%s title=%s>" % (self.id, self.title)
+        return "<Notebook id=%s title=%s>" % (self.notebook_id, self.title)
 
 
-class UserInNotebook(db.Model):
+class NotebookUser(db.Model):
     """User in a Notebook."""
 
-    __tablename__ = "users_in_notebook"
+    __tablename__ = "notebook_users"
 
-    # creates columns in my "users_in_notebook" table
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
+    # creates columns in my "notebook_users" table
+    notebook_user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.notebook_id'), nullable=False)
+
+    # Define relationship to user
+    user = db.relationship("User",
+                           backref="notebook_users")
+
+    # Define relationship to notebook
+    notebook = db.relationship("Notebook",
+                               backref="notebook_users")
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Users in Notebook id=%s user_id=%s notebook_id=%s>" % (self.id, self.user_id, self.notebook_id)
+        return "<Notebook User id=%s user_id=%s notebook_id=%s>" % (self.notebook_user_id, self.user_id, self.notebook_id)
 
 
 class Note(db.Model):
@@ -66,15 +81,24 @@ class Note(db.Model):
 
     __tablename__ = "notes"
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    # user id of the user who wrote the note
-    author_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
+    # creates columns in my "notes" table
+    note_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    note = db.Column(db.String(400), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.notebook_id'), nullable=False)
+
+    # Define relationship to user
+    user = db.relationship("User",
+                           backref="notes")
+
+    # Define relationship to notebook
+    notebook = db.relationship("Notebook",
+                               backref="notes")
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Note id=%s author_user_id=%s notebook_id=%s>" % (self.id, self.author_user_id, self.notebook_id)
+        return "<Note id=%s author_user_id=%s notebook_id=%s>" % (self.note_id, self.user_id, self.notebook_id)
 
 
 ##############################################################################

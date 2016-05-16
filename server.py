@@ -69,7 +69,7 @@ def process_sign_up():
         db.session.commit()
 
         # To keep user logged in, need to hold onto user_id in a flask session
-        session['current_user'] = new_user.id
+        session['current_user'] = new_user.user_id
 
         # flashes a message to user of successful sign up
         flash("Welcome %s you successfully signed up" % first_name)
@@ -101,7 +101,7 @@ def process_sign_in():
     if user:
         if user.password == password:
             # Keep user logged in by setting session key to id
-            session['current_user'] = user.id
+            session['current_user'] = user.user_id
             flash("Signed in as {}".format(user.email))
             return redirect('/homepage')
         else:
@@ -132,7 +132,31 @@ def show_homepage():
 
     return render_template("homepage.html")
 
+# @app.route('/homepage', methods=['GET'])
+# def notebook_connection:
 
+    # query to get user 1 and user 2
+    # then add it to my user_in_notebook table
+    # look at data model lecture demo
+
+
+# Working progress
+@app.route('/process-note', methods=['POST'])
+def process_note():
+
+    # Get form variables
+    note = request.form.get("note")
+
+    # Instantiates new_note in the Note class
+    new_note = Note(note=note)
+
+    # We need to add to the transaction or it won't be stored
+    db.session.add(new_note)
+
+    # Once we're done, we should commit our work
+    db.session.commit()
+
+    return redirect('/homepage')
 
 ##############################################################################
 # Helper functions

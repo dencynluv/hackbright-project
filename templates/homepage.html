@@ -4,14 +4,14 @@
     <h1>This is the homepage</h1>
 
     <div>
-        <button>New Note</button>
+        <form action="/process-note" method="POST">
+            <textarea type='text', name='note'>
+            </textarea>
+        </form>
     </div>
 
     <div>
-        <form>
-            <textarea>
-            </textarea>
-        </form>
+        <input type="submit">
     </div>
 
 {% endblock %}
