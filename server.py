@@ -25,6 +25,8 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Landing page."""
 
+    # check if the current_user is in a session
+    # else it gives me back the default value which is none
     current_session = session.get('current_user', None)
 
     return render_template("landing_page.html", session=current_session)
@@ -41,37 +43,37 @@ def sign_up_form():
 def process_sign_up():
     """Process sign up and add new user to database."""
 
-    # Get form variables
+    # Get form variables from sign_up_form.html
     first_name = request.form.get("first-name")
     last_name = request.form.get("last-name")
     email = request.form.get("email")
     password = request.form.get("password")
     # Might need for Twilio API
-    # phone_number = int(request.form["phone"])
+    # phone_number = int(request.form("phone"))
 
-    # Check if user exists in database and return user object
+    # Check if user exists in database and return that user object
     new_user = db.session.query(User).filter(User.email == email).first()
 
-    # Want to check if new_user is a user object
+    # Check if new_user is a user object
     # If new_user is None, go into else statement
     if new_user:
         if new_user.email == email:
             flash("You are already Signed In")
             pass
     else:
-        # Instantiates new_user in the User class
+        # Instantiates new_user in the User class with values from form
         new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
 
-        # We need to add to the transaction or it won't be stored
+        # Add it to the transaction or it won't be stored
         db.session.add(new_user)
 
         # Once we're done, we should commit our work
         db.session.commit()
 
-        # To keep user logged in, need to hold onto user_id in a flask session
+        # To keep new_user logged in, need to hold onto user_id in a flask session
         session['current_user'] = new_user.user_id
 
-        # flashes a message to user of successful sign up
+        # flashes a message to new_user of successful sign up
         flash("Welcome %s you successfully signed up" % first_name)
 
     return redirect("/homepage")
@@ -88,27 +90,29 @@ def sign_in_form():
 def process_sign_in():
     """Process sign in."""
 
-    # Get form variables
+    # Get form variables from sign_in_form.html
     email = request.form.get("email")
     password = request.form.get("password")
 
-    # Query for user whose email matches email above
-    # Return a user object
-    user = db.session.query(User).filter(User.email == email).one()
+    # Query and check for user whose email matches email above
+    # bind it to user variable and return it as an object
+    user = db.session.query(User).filter(User.email == email).first()
+    print user
 
-    # Want to check if user is a user object
-    # If user is None, go into else statement
+    # Check if user is a user object AND if password matches flash
+    # else if password doesn't match, flash
+    # If user is None, go into else statement and flash
     if user:
         if user.password == password:
             # Keep user logged in by setting session key to id
             session['current_user'] = user.user_id
-            flash("Signed in as {}".format(user.email))
+            flash("Welcome back {}!".format(user.first_name))
             return redirect('/homepage')
         else:
-            flash("You forgot to Sign Up")
-            redirect('/sign-up')
-
-    flash("Login and/or password is incorrect! Try again.")
+            flash("Login and/or password is incorrect! Try again.")
+    else:
+        flash("You forgot to Sign Up")
+        return redirect('/sign-up')
 
     return redirect('sign-in')
 
@@ -117,10 +121,14 @@ def process_sign_in():
 def user_sign_out():
     """Allow user to sign out."""
 
+    # if current_user is logged in
     if session['current_user']:
+        # delete the current_user's session
         del session['current_user']
+        # lets current_user they signed out
         flash("You have successfully Signed Out.")
     else:
+        # let user know they can't sign out if they weren't signed in
         flash("You were not Signed In")
 
     return redirect('/')
@@ -135,41 +143,65 @@ def show_homepage():
 
 @app.route('/homepage', methods=['POST'])
 def create_notebook():
+    """Create notebook and add users to that notebook."""
 
-    # get the current_user logged in and bind it to user_id variable
+
+    # grab the current_user logged in and bind it to user_id variable
     user_id = session.get('current_user')
-    # get the user_id(primary key) of the current_user and bind it to user variable
+
+    # query the User table and get the user_id(primary key) of the current_user
+    # bind it to the user variable and instanciate it as an object
     user = User.query.get(user_id)
 
-    # Get form variables
+    # Get form variables from homepage.html
     email = request.form.get("email")
     title = request.form.get("title")
 
-    notebook = Notebook()
+    # instanciate notbook in the Notbook class
+    # pass in title argument if given
+    notebook = Notebook(title=title)
+
+    # add and commit notebook object to the notebooks table
     db.session.add(notebook)
     db.session.commit()
 
+    # instanciate notebook_user1 in the NotebookUser class
+    # and pass in the arguments for the notebook_users table
     notebook_user1 = NotebookUser(user=user, notebook=notebook)
+    # add it and commit it
     db.session.add(notebook_user1)
     db.session.commit()
 
+    # query and check if user's email is equal to the one given above
+    # bind it to user2 variable and return it as an object
     user2 = User.query.filter(User.email == email).one()
 
+    # instanciate notbook_user2 in NotbookUser class
+    # and pass in the arguments for the notebook_user table
     notebook_user2 = NotebookUser(user=user2, notebook=notebook)
+    # add it and commit it
     db.session.add(notebook_user2)
     db.session.commit()
 
     return redirect('/homepage')
 
-# Working progress
+
 # @app.route('/process-note', methods=['POST'])
 # def process_note():
+    """Create notebook and add users to that notebook."""
 
-#     # Get form variables
-#     note = request.form.get("note")
+    # grab the current_user logged in and bind it to user_id variable
+    user_id = session.get('current_user')
 
-#     # Instantiates new_note in the Note class
-#     new_note = Note(note=note)
+    # query the User table and get the user_id(primary key) of the current_user
+    # bind it to the user variable and instanciate it as an object
+    user = User.query.get(user_id)
+
+    # Get form variables from homepage.html
+    note = request.form.get("note")
+
+    # Instantiates new_note in the Note class
+    new_note = Note(note=note)
 
 #     # We need to add to the transaction or it won't be stored
 #     db.session.add(new_note)
