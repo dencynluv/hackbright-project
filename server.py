@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, User
+from model import connect_to_db, db, User, Notebook, NotebookUser, Note
 
 
 app = Flask(__name__)
@@ -132,31 +132,52 @@ def show_homepage():
 
     return render_template("homepage.html")
 
-# @app.route('/homepage', methods=['GET'])
-# def notebook_connection:
 
-    # query to get user 1 and user 2
-    # then add it to my user_in_notebook table
-    # look at data model lecture demo
+@app.route('/homepage', methods=['POST'])
+def create_notebook():
 
-
-# Working progress
-@app.route('/process-note', methods=['POST'])
-def process_note():
+    # get the current_user logged in and bind it to user_id variable
+    user_id = session.get('current_user')
+    # get the user_id(primary key) of the current_user and bind it to user variable
+    user = User.query.get(user_id)
 
     # Get form variables
-    note = request.form.get("note")
+    email = request.form.get("email")
+    title = request.form.get("title")
 
-    # Instantiates new_note in the Note class
-    new_note = Note(note=note)
+    notebook = Notebook()
+    db.session.add(notebook)
+    db.session.commit()
 
-    # We need to add to the transaction or it won't be stored
-    db.session.add(new_note)
+    notebook_user1 = NotebookUser(user=user, notebook=notebook)
+    db.session.add(notebook_user1)
+    db.session.commit()
 
-    # Once we're done, we should commit our work
+    user2 = User.query.filter(User.email == email).one()
+
+    notebook_user2 = NotebookUser(user=user2, notebook=notebook)
+    db.session.add(notebook_user2)
     db.session.commit()
 
     return redirect('/homepage')
+
+# Working progress
+# @app.route('/process-note', methods=['POST'])
+# def process_note():
+
+#     # Get form variables
+#     note = request.form.get("note")
+
+#     # Instantiates new_note in the Note class
+#     new_note = Note(note=note)
+
+#     # We need to add to the transaction or it won't be stored
+#     db.session.add(new_note)
+
+#     # Once we're done, we should commit our work
+#     db.session.commit()
+
+#     return redirect('/homepage')
 
 ##############################################################################
 # Helper functions
