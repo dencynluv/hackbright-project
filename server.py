@@ -58,7 +58,7 @@ def process_sign_up():
     # If new_user is None, go into else statement
     if new_user:
         if new_user.email == email:
-            flash("You are already Signed In")
+            flash("You are already Signed Up")
             pass
     else:
         # Instantiates new_user in the User class with values from form
@@ -186,9 +186,11 @@ def create_notebook():
     return redirect('/homepage')
 
 
-# @app.route('/process-note', methods=['POST'])
-# def process_note():
-    """Create notebook and add users to that notebook."""
+@app.route('/process-note', methods=['POST'])
+def process_note():
+    """Create note and track user who wrote it."""
+
+    # have browser let me know what notebook user is editing through hidden form input
 
     # grab the current_user logged in and bind it to user_id variable
     user_id = session.get('current_user')
@@ -197,19 +199,22 @@ def create_notebook():
     # bind it to the user variable and instanciate it as an object
     user = User.query.get(user_id)
 
+    # notebook = Notebook.query.get(notebook_id)
+    notebook = user.notebooks[0]
+
     # Get form variables from homepage.html
-    note = request.form.get("note")
+    new_note = request.form.get("note")
 
     # Instantiates new_note in the Note class
-    new_note = Note(note=note)
+    new_note = Note(note=new_note, user=user, notebook=notebook)
 
-#     # We need to add to the transaction or it won't be stored
-#     db.session.add(new_note)
+    # We need to add to the transaction or it won't be stored
+    db.session.add(new_note)
 
-#     # Once we're done, we should commit our work
-#     db.session.commit()
+    # Once we're done, we should commit our work
+    db.session.commit()
 
-#     return redirect('/homepage')
+    return redirect('/homepage')
 
 ##############################################################################
 # Helper functions

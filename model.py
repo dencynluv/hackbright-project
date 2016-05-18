@@ -27,9 +27,9 @@ class User(db.Model):
     # Define relationship to Notebooks class,
     # go thru notebook_users table, to get to users table
     # can go backwards thru users table to notebooks table
-    notebook = db.relationship("Notebook",
-                               secondary="notebook_users",
-                               backref="users")
+    notebooks = db.relationship("Notebook",
+                                secondary="notebook_users",
+                                backref="users")
 
     def __repr__(self):
         """Provide helpful representation when printed."""

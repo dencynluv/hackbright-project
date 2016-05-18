@@ -3,6 +3,7 @@
 
     <h1>This is the homepage</h1>
     
+<!-- Form that connects users to a notebook -->
     <form action="/homepage" method="POST">
         <div class="form-group">
             <label>
@@ -22,12 +23,13 @@
     </form>
     <br>
 
-    <form action="/process-note" method="GET">
+<!-- Form for note processing -->
+    <form action="/process-note" method="POST">
         <div>
             <textarea cols="40" rows="4" type="text", name="note" placeholder="type your note..."></textarea>
         </div>
         <div>
-            <input type="submit" value="Send">
+            <input type="submit" value="Send" >
         </div>
     </form>
 {% endblock %}
