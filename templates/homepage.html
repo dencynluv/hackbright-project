@@ -24,12 +24,14 @@
     <br>
 
 <!-- Form for note processing -->
-    <form action="/process-note" method="POST" id="send-note">
+    <form id="note-form" action="/new-note" method="POST">
         <div>
-            <textarea cols="40" rows="4" type="text", name="note" placeholder="type your note..."></textarea>
+            <textarea id="note-field" cols="40" rows="4" type="text", name="note" placeholder="type your note..."></textarea>
         </div>
         <div>
             <input type="submit" value="Send">
         </div>
     </form>
+
+    <!-- <script src="/static/js/display-order.js"></script> -->
 {% endblock %}

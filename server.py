@@ -108,14 +108,15 @@ def process_sign_in():
     user = db.session.query(User).filter(User.email == email).first()  #TRY AND EXCEPT?
     # print user
 
-    # Check if user is a user object AND if password matches flash
+    # Check if user is a user object AND if password matches, flash
     # else if password doesn't match, flash
     # If user is None, go into else statement and flash
     if user:
         if user.password == password:
             # Keep user logged in by setting Flask session key
             # to the value of user_id (got user_id from user object instanciated above)
-            flask_session['current_user']['current_user'] = user.user_id
+            # import pdb;pdb.set_trace() #debugging
+            flask_session['current_user'] = {'current_user': user.user_id}
             flash("Welcome back {}!".format(user.first_name))
             return redirect('/homepage')
         else:
@@ -182,7 +183,7 @@ def create_notebook():
     # Looks like:
     #   {'current_user': {'current_user':2, 'current_notebook':1}}
     flask_session['current_user']['current_notebook'] = notebook.notebook_id
-    print flask_session  #debuggin
+    # print flask_session  #debuggin
 
     # instanciate notebook_user1 in the NotebookUser class
     # and pass in the arguments for the notebook_users table
@@ -205,7 +206,7 @@ def create_notebook():
     return redirect('/homepage')
 
 
-@app.route('/process-note', methods=['POST'])
+@app.route('/new-note', methods=['POST'])
 def process_note():
     """Create note and track user who wrote it."""
 
@@ -227,7 +228,7 @@ def process_note():
     # bind it to the notebook variable and instanciate it as an object
     notebook = Notebook.query.get(notebook_id)
 
-    # Get form variables from homepage.html
+    # Get form variables inputs from homepage.html
     new_note = request.form.get("note")
 
     # Instantiates new_note in the Note class
@@ -241,6 +242,26 @@ def process_note():
     db.session.commit()
 
     return redirect('/homepage')
+
+
+# @app.route('/show-all-notes.js', method=['GET'])
+# def show_notes():
+#     """Display all notes"""
+#     # function that serves back a json of all the notes for a given notebook id
+
+#     notebook_id = flask_session.get('current_user').get('current_notebook')
+#     # import pdb;pdb.set_trace() #debugging
+#     notes = db.session.query(Note).filter(Note.notebook_id == notebook_id).all()
+
+#     # for note in notes:
+
+
+
+#     # all_notes = {
+#     #     "notes":
+#     # }
+
+#     # return jsonify(all_notes)
 
 ##############################################################################
 # Helper functions
