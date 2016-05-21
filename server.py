@@ -75,7 +75,7 @@ def process_sign_up():
         # then set another key named user_id (so that it is a nested dictionary, inside of current_user)
         # and set the value to be the user_id from the new_user object instanciated above.
         # Used a nested dictionary for Flask session
-        # because I will add another key/value pair later on in line 177
+        # because I will add another key/value pair later on in homepage route
         # This way, create only one Flask session and delete only one session vs. two or more
         # Looks like:
         #   {'current_user': {'user_id':2}}
@@ -105,8 +105,10 @@ def process_sign_in():
 
     # Query and check for user whose email matches email above
     # bind it to user variable and return it as an object
+    import pdb;pdb.set_trace()
     user = db.session.query(User).filter(User.email == email).first()  #TRY AND EXCEPT?
-    # print user
+    import pdb;pdb.set_trace()
+    notebook = user.notebooks[0]
 
     # Check if user is a user object AND if password matches, flash
     # else if password doesn't match, flash
@@ -116,7 +118,7 @@ def process_sign_in():
             # Keep user logged in by setting Flask session key
             # to the value of user_id (got user_id from user object instanciated above)
             # import pdb;pdb.set_trace() #debugging
-            flask_session['current_user'] = {'current_user': user.user_id}
+            flask_session['current_user'] = {'current_user': user.user_id, 'current_notebook': notebook.notebook_id}
             flash("Welcome back {}!".format(user.first_name))
             return redirect('/homepage')
         else:
@@ -132,17 +134,12 @@ def process_sign_in():
 def user_sign_out():
     """Allow user to sign out."""
 
-    # if not flask_session['current_user']:
-    #     # let user know they can't sign out if they weren't signed in
-    #     flash("You were not Signed In")
-
     # if current_user is logged in
     if flask_session['current_user']:
         # delete the current_user's Flask session
         del flask_session['current_user']
         # lets current_user know they signed out
         flash("You have successfully Signed Out.")
-
 
     return redirect('/')
 
@@ -182,6 +179,7 @@ def create_notebook():
     # and set the value to be the notebook_id from the notebook object instanciated above
     # Looks like:
     #   {'current_user': {'current_user':2, 'current_notebook':1}}
+    # import pdb;pdb.set_trace() #debuggin
     flask_session['current_user']['current_notebook'] = notebook.notebook_id
     # print flask_session  #debuggin
 
@@ -217,15 +215,18 @@ def process_note():
     # get the key current_user logged in and bind its value to user_id variable
     # import pdb;pdb.set_trace()
     user_id = flask_session.get('current_user').get('current_user')
+
     # get the key current_notebook logged in and bind its value to notebook_id variable
+    # import pdb;pdb.set_trace()
     notebook_id = flask_session.get('current_user').get('current_notebook')
 
     # query the User table and find the user_id bound above (line 206)
     # bind it to the user variable and instanciate it as an object
     user = User.query.get(user_id)
 
-    # query the Notebook table and find the notebook_id bound above (line 208)
+    # query the Notebook table and find the notebook_id bound above (line 221)
     # bind it to the notebook variable and instanciate it as an object
+    # import pdb;pdb.set_trace()
     notebook = Notebook.query.get(notebook_id)
 
     # Get form variables inputs from homepage.html
@@ -244,24 +245,25 @@ def process_note():
     return redirect('/homepage')
 
 
+# Working progress
 # @app.route('/show-all-notes.js', method=['GET'])
 # def show_notes():
 #     """Display all notes"""
 #     # function that serves back a json of all the notes for a given notebook id
 
 #     notebook_id = flask_session.get('current_user').get('current_notebook')
-#     # import pdb;pdb.set_trace() #debugging
+#     import pdb;pdb.set_trace() #debugging
 #     notes = db.session.query(Note).filter(Note.notebook_id == notebook_id).all()
 
-#     # for note in notes:
+    # for note in notes:
 
 
 
-#     # all_notes = {
-#     #     "notes":
-#     # }
+    # all_notes = {
+    #     "notes":
+    # }
 
-#     # return jsonify(all_notes)
+    # return jsonify(all_notes)
 
 ##############################################################################
 # Helper functions
