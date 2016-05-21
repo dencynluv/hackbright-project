@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session as flask_session
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Notebook, NotebookUser, Note
@@ -25,9 +25,9 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Landing page."""
 
-    # check if the current_user is in a session
+    # check if the current_user is in a Flask session
     # else it gives me back the default value which is none
-    current_session = session.get('current_user', None)
+    current_session = flask_session.get('current_user', None)
 
     return render_template("landing_page.html", session=current_session)
 
@@ -54,7 +54,7 @@ def process_sign_up():
     # Check if user exists in database and return that user object
     new_user = db.session.query(User).filter(User.email == email).first()
 
-    # Check if new_user is a user object
+    # Check if new_user is a user object AND if email matches
     # If new_user is None, go into else statement
     if new_user:
         if new_user.email == email:
@@ -66,12 +66,11 @@ def process_sign_up():
 
         # Add it to the transaction or it won't be stored
         db.session.add(new_user)
-
         # Once we're done, we should commit our work
         db.session.commit()
 
-        # To keep new_user logged in, need to hold onto user_id in a flask session
-        session['current_user'] = new_user.user_id
+        # To keep new_user logged in, need to hold onto user_id in a Flask session
+        flask_session['current_user'] = new_user.user_id
 
         # flashes a message to new_user of successful sign up
         flash("Welcome %s you successfully signed up" % first_name)
@@ -97,15 +96,14 @@ def process_sign_in():
     # Query and check for user whose email matches email above
     # bind it to user variable and return it as an object
     user = db.session.query(User).filter(User.email == email).first()
-    print user
 
-    # Check if user is a user object AND if password matches flash
+    # Check if user is a user object AND if password matches, flash
     # else if password doesn't match, flash
     # If user is None, go into else statement and flash
     if user:
         if user.password == password:
-            # Keep user logged in by setting session key to id
-            session['current_user'] = user.user_id
+            # Keep user logged in by setting Flask session key to id
+            flask_session['current_user'] = user.user_id
             flash("Welcome back {}!".format(user.first_name))
             return redirect('/homepage')
         else:
@@ -122,14 +120,10 @@ def user_sign_out():
     """Allow user to sign out."""
 
     # if current_user is logged in
-    if session['current_user']:
-        # delete the current_user's session
-        del session['current_user']
-        # lets current_user they signed out
+    if flask_session['current_user']:
+        # delete the current_user's Flask session
+        del flask_session['current_user']
         flash("You have successfully Signed Out.")
-    else:
-        # let user know they can't sign out if they weren't signed in
-        flash("You were not Signed In")
 
     return redirect('/')
 
@@ -146,7 +140,7 @@ def create_notebook():
     """Create notebook and add users to that notebook."""
 
     # grab the current_user logged in and bind it to user_id variable
-    user_id = session.get('current_user')
+    user_id = flask_session.get('current_user')
 
     # query the User table and get the user_id(primary key) of the current_user
     # bind it to the user variable and instanciate it as an object
@@ -156,18 +150,15 @@ def create_notebook():
     email = request.form.get("email")
     title = request.form.get("title")
 
-    # instanciate notbook in the Notbook class
-    # pass in title argument if given
+    # instanciates notebook in the Notebook class
+    # passes in title argument if given
     notebook = Notebook(title=title)
-
-    # add and commit notebook object to the notebooks table
     db.session.add(notebook)
     db.session.commit()
 
-    # instanciate notebook_user1 in the NotebookUser class
-    # and pass in the arguments for the notebook_users table
+    # instanciates notebook_user1 in the NotebookUser class
+    # and passes in the arguments for the notebook_users table
     notebook_user1 = NotebookUser(user=user, notebook=notebook)
-    # add it and commit it
     db.session.add(notebook_user1)
     db.session.commit()
 
@@ -175,10 +166,7 @@ def create_notebook():
     # bind it to user2 variable and return it as an object
     user2 = User.query.filter(User.email == email).one()
 
-    # instanciate notbook_user2 in NotbookUser class
-    # and pass in the arguments for the notebook_user table
     notebook_user2 = NotebookUser(user=user2, notebook=notebook)
-    # add it and commit it
     db.session.add(notebook_user2)
     db.session.commit()
 
@@ -192,7 +180,7 @@ def process_note():
     # have browser let me know what notebook user is editing through hidden form input
 
     # grab the current_user logged in and bind it to user_id variable
-    user_id = session.get('current_user')
+    user_id = flask_session.get('current_user')
 
     # query the User table and get the user_id(primary key) of the current_user
     # bind it to the user variable and instanciate it as an object
@@ -215,6 +203,26 @@ def process_note():
     db.session.commit()
 
     return redirect('/homepage')
+
+# Working progress
+# @app.route('/show-all-notes.js', method=['GET'])
+# def show_notes():
+#     """Display all notes"""
+#     # function that serves back a json of all the notes for a given notebook id
+
+#     notebook_id = flask_session.get('current_user').get('current_notebook')
+#     import pdb;pdb.set_trace() #debugging
+#     notes = db.session.query(Note).filter(Note.notebook_id == notebook_id).all()
+
+    # for note in notes:
+
+
+
+    # all_notes = {
+    #     "notes":
+    # }
+
+    # return jsonify(all_notes)
 
 ##############################################################################
 # Helper functions
