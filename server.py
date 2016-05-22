@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session as flask_session
+from flask import Flask, render_template, request, flash, redirect, jsonify, session as flask_session
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Notebook, NotebookUser, Note
@@ -58,8 +58,8 @@ def process_sign_up():
     # If new_user is None, go into else statement
     if new_user:
         if new_user.email == email:
-            flash("You are already Signed Up")
-            pass
+            flash("An account already exists with this email address. Please Sign in.")
+            return redirect("/sign-in")
     else:
         # Instantiates new_user in the User class with values from form
         new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
@@ -107,9 +107,9 @@ def process_sign_in():
             flash("Welcome back {}!".format(user.first_name))
             return redirect('/homepage')
         else:
-            flash("Login and/or password is incorrect! Try again.")
+            flash("Email and/or password is incorrect! Try again.")
     else:
-        flash("You forgot to Sign Up")
+        flash("The email you entered is not in our records. Please Sign up.")
         return redirect('/sign-up')
 
     return redirect('sign-in')
@@ -204,25 +204,33 @@ def process_note():
 
     return redirect('/homepage')
 
-# Working progress
-# @app.route('/show-all-notes.js', method=['GET'])
-# def show_notes():
-#     """Display all notes"""
-#     # function that serves back a json of all the notes for a given notebook id
 
-#     notebook_id = flask_session.get('current_user').get('current_notebook')
-#     import pdb;pdb.set_trace() #debugging
-#     notes = db.session.query(Note).filter(Note.notebook_id == notebook_id).all()
+# Working progress (still not working, missing some connection?)
+@app.route('/show-all-notes.js', methods=['GET'])
+def show_notes():
+    """Display all notes"""
+    # function that serves back a json of all the notes for a given notebook id
 
-    # for note in notes:
+    user_id = flask_session.get('current_user')
 
+    # import pdb;pdb.set_trace()
+    user = User.query.get(user_id)
 
+    # import pdb;pdb.set_trace()
+    notebook = user.notebooks[0]
+    # notebook_id = user.notebook.notebook_id
 
-    # all_notes = {
-    #     "notes":
-    # }
+    # import pdb;pdb.set_trace() #debugging
+    notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).all()
 
-    # return jsonify(all_notes)
+    for note in notes:
+        # print note.note
+
+        all_notes = {
+            "notes": note.note
+        }
+
+    return jsonify(all_notes)
 
 ##############################################################################
 # Helper functions

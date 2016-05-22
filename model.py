@@ -24,7 +24,7 @@ class User(db.Model):
     email = db.Column(db.String(60), unique=True, nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
-    # Define relationship to Notebooks class,
+    # Define relationship to Notebook class,
     # go thru notebook_users table, to get to users table
     # can go backwards thru users table to notebooks table
     notebooks = db.relationship("Notebook",
@@ -98,7 +98,7 @@ class Note(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Note id=%s author_user_id=%s notebook_id=%s>" % (self.note_id, self.user_id, self.notebook_id)
+        return "<Note id=%s user_id=%s notebook_id=%s>" % (self.note_id, self.user_id, self.notebook_id)
 
 
 ##############################################################################
