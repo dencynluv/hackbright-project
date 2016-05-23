@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% block title %}Homepage{% endblock %}
+
 {% block content %}
 
     <h1>This is the homepage</h1>
@@ -6,15 +9,15 @@
 <!-- Form that connects users to a notebook -->
     <form action="/homepage" method="POST">
         <div class="form-group">
-            <label>
+            <label for="email-connection">
                 Email of person you want to connect with:
-                <input type="email" name="email" placeholder="example@email.com" required>
+                <input id="email-connection" type="email" name="email" placeholder="example@email.com" required>
             </label>
         </div>
         <div>
-            <label>
+            <label for="add-title">
                Add a title(optional):
-                <input type="text", name="title">
+                <input id="add-title" type="text", name="title">
             </label>
         </div>
         <div>
@@ -33,5 +36,6 @@
         </div>
     </form>
 
-    <script src="/static/js/display-notes.js"></script>
+<!--      <script src="https://code.jquery.com/jquery.js"></script>
+     <script src="/static/js/display-notes.js"></script> -->
 {% endblock %}

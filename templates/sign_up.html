@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
 {% block content %}
 
 <!-- Sign Up Form -->
@@ -6,38 +9,38 @@
 
     <form action="/process-sign-up" method="POST">
         <div class="form-group">
-            <label>
+            <label for="first-name">
                 First Name:
-                <input type="text" name="first-name" required>
+                <input id="first-name" type="text" name="first-name" required>
             </label>
         </div>
         <br>
         <div class="form-group">
-            <label>
+            <label for="last-name">
                 Last Name:
-                <input type="text" name="last-name" required>
+                <input id="last-name" type="text" name="last-name" required>
             </label>
         </div>
         <br>
         <div class="form-group">
-            <label>
+            <label for="email">
                 Email:
-                <input type="email" name="email" placeholder="example@email.com" required>
+                <input id="email" type="email" name="email" placeholder="example@email.com" required>
             </label>
         </div>
         <br>
         <div class="form-group">
-            <label>
+            <label for="password">
                 Password:
-                <input type="password" name="password" required>
+                <input id="password" type="password" name="password" required>
             </label>
         </div>
         <br>
         <!-- Might need phone# from user for Twiilio API -->
        <!--  <div class="form-group">
-            <label>
+            <label for="phone-number">
                 Phone number:
-                <input type="number" name="phone" required>
+                <input id="phone-number" type="number" name="phone" required>
             </label>
         </div>
         <br> -->
@@ -46,6 +49,6 @@
         </div>
     </form>
     <br>
-    <a href="/">Back to Homepage</a>
+    <p>Already have an account? <a href="/sign-in">Sign-in here</a></p>
 
 {% endblock %}

@@ -36,14 +36,14 @@ def index():
 def sign_up_form():
     """Show sign up form."""
 
-    return render_template("sign_up_form.html")
+    return render_template("sign_up.html")
 
 
 @app.route('/process-sign-up', methods=['POST'])
 def process_sign_up():
-    """Process sign up and add new user to database."""
+    """Process sign up and check if user exists in database, otherwise add user to database."""
 
-    # Get form variables from sign_up_form.html
+    # Get values from sign_up form
     first_name = request.form.get("first-name")
     last_name = request.form.get("last-name")
     email = request.form.get("email")
@@ -62,7 +62,10 @@ def process_sign_up():
             return redirect("/sign-in")
     else:
         # Instantiates new_user in the User class with values from form
-        new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
+        new_user = User(first_name=first_name, 
+                        last_name=last_name, 
+                        email=email, 
+                        password=password)
 
         # Add it to the transaction or it won't be stored
         db.session.add(new_user)
@@ -82,14 +85,14 @@ def process_sign_up():
 def sign_in_form():
     """Show sign in form."""
 
-    return render_template("sign_in_form.html")
+    return render_template("sign_in.html")
 
 
 @app.route('/process-sign-in', methods=['POST'])
 def process_sign_in():
-    """Process sign in."""
+    """Process sign in and sign user in if credentials provided are correct."""
 
-     # Get form variables from sign_in_form.html
+     # Get values from sign_in form
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -187,6 +190,9 @@ def process_note():
     user = User.query.get(user_id)
 
     # notebook = Notebook.query.get(notebook_id)
+    # user.notebooks returns a list of notebooks the user has,
+    # that is why I need to hard code for [0] to get the first notebook out of the list
+    # I could for loop? to get each object(item) out
     notebook = user.notebooks[0]
 
     # Get form variables from homepage.html
@@ -206,7 +212,7 @@ def process_note():
 
 
 # Working progress (still not working, missing some connection?)
-@app.route('/show-all-notes.js', methods=['GET'])
+@app.route('/show-all-notes.json', methods=['GET'])
 def show_notes():
     """Display all notes"""
     # function that serves back a json of all the notes for a given notebook id

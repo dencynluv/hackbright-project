@@ -20,3 +20,4 @@ function getAllNotes(evt) {
 // listen for submit button
 // run the getAllNotes function
 $("#note-form").on("submit", getAllNotes);
+
