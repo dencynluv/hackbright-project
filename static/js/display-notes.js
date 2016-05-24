@@ -8,12 +8,20 @@ function showNotesResults(results) {   //the results being passed in are the one
     console.log(notes);
     $("#add-notes").html(notes);
     // for (i=0, i < , i++)
+
+    for (var key in notes) {
+        var note = notes[key];
+    }
 }
 
 function getAllNotes(evt) {
     // prevent page from reloading
     evt.preventDefault();
-    console.log("got into getAllNotes");
+    console.log("got into getAllNotes"); //debugging
+
+    // var formInputs = {
+    //     "note": $("#note-field").val(),
+    // };
 
     // go to this route in my app 
     // when you come back succesfully run the function showNoteResults

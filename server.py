@@ -240,12 +240,12 @@ def process_note():
     # have browser let me know what notebook user is editing through hidden form input
 
     # grab the current_user logged in and bind it to user_id variable
-    user_id = flask_session.get('current_user')
+    # user_id = flask_session.get('current_user')
 
     # query the User table and get the user_id(primary key) of the current_user
     # bind it to the user variable and instanciate it as an object
 
-    user = User.query.get(user_id) #flask_session.get('current_user')
+    user = User.query.get(flask_session.get('current_user'))
 
     # notebook = Notebook.query.get(notebook_id)
     # user.notebooks returns a list of notebooks the user has,
@@ -277,36 +277,41 @@ def process_note():
 
 
 # Working progress (still not working, missing some connection?)
-@app.route('/show-all-notes.json', methods=['GET'])
-def show_notes():
-    """Display all notes"""
-    # function that serves back a json of all the notes for a given notebook id
+# @app.route('/show-all-notes.json', methods=['GET'])
+# def show_notes():
+#     """Display all notes"""
+#     # function that serves back a json of all the notes for a given notebook id
 
-    user_id = flask_session.get('current_user')
+#     # user_id = flask_session.get('current_user')
 
-    # import pdb;pdb.set_trace()
-    user = User.query.get(user_id)
+#     # import pdb;pdb.set_trace()
+#     user = User.query.get(flask_session.get('current_user'))
 
-    # import pdb;pdb.set_trace()
-    notebook = user.notebooks[0]
-    # notebook_id = user.notebook.notebook_id
+#     # import pdb;pdb.set_trace()
+#     notebook = user.notebooks[0]
+#     # notebook_id = user.notebook.notebook_id
 
-    # import pdb;pdb.set_trace() #debugging
-    notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).all()
+#     # current_note = request.args.get("note")
 
-    all_notes = {}
+#     # db.session.add(current_note)
+#     # db.session.commit()
 
-    for note in notes:
-        # print note.note
+#     # import pdb;pdb.set_trace() #debugging
+#     notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).all()
 
-        all_notes[note.note_id] = {
-            "message": note.note
-        }
+#     all_notes = {}
 
-    # print all_notes
-    return "Success"
+#     for note in notes:
+#         # print note.note
 
-    # return jsonify(all_notes)
+#         all_notes[note.note_id] = {
+#             "message": note.note
+#         }
+
+#     # print all_notes
+
+#     return "Success"
+#     # return jsonify(all_notes)
 
 ##############################################################################
 # Helper functions
