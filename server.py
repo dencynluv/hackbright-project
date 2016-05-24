@@ -252,7 +252,7 @@ def show_notes():
             "message": note.note
         }
 
-    # print all_notes
+    # print all_notes #debuggin
 
     return "Success"
     # return jsonify(all_notes)
