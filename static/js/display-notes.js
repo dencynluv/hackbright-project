@@ -7,11 +7,10 @@ function showNotesResults(results) {   //the results being passed in are the one
     var notes = results;
     console.log(notes);
     $("#add-notes").html(notes);
-    // for (i=0, i < , i++)
 
-    for (var key in notes) {
-        var note = notes[key];
-    }
+    // for (var key in notes) {
+    //     var note = notes[key];
+    // }
 }
 
 function getAllNotes(evt) {

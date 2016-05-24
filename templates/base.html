@@ -23,6 +23,7 @@
      {% endif %} 
   {% endwith %} 
 
+<!-- I am only showing sign out button if user is already signed in -->
 {% if session %}
     <h2>Sign-Out</h2>
     <p><a href="/sign-out">Sign Out</a></p>
