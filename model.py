@@ -86,6 +86,8 @@ class Note(db.Model):
     note = db.Column(db.String(400), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.notebook_id'), nullable=False)
+    # Set default for timestamp of current time at UTC time zone
+    # posted_At = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # Define relationship to user
     user = db.relationship("User",

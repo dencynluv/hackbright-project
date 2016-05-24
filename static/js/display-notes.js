@@ -3,13 +3,17 @@
 // build function that displays/shows all notes that was sent through send button
 
 function showNotesResults(results) {   //the results being passed in are the ones I set in my route
-    console.dir(results); //debugging
-    alert(results);  // This will show my message in an alert box, but I want to display them how?
+    // console.dir(results); //debugging
+    var notes = results;
+    console.log(notes);
+    $("#add-notes").html(notes);
+    // for (i=0, i < , i++)
 }
 
 function getAllNotes(evt) {
     // prevent page from reloading
     evt.preventDefault();
+    console.log("got into getAllNotes");
 
     // go to this route in my app 
     // when you come back succesfully run the function showNoteResults
