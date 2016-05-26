@@ -37,13 +37,13 @@
             <input id="note-btn" type="submit" value="Send">
         </div>
     </form>
-
+    <br>
 <!-- notes from /homepage route return a list of note objects-->
 <!-- if there are notes, loop through the list -->
     <div class="notebook">
     {% if notes %}
      {% for note in notes %}
-        <div> {{ note.user_id }} says {{ note.note }}</div>
+        <div> {{ note.user.first_name }} says {{ note.note }}</div>
      {% endfor %}
     {% endif %}
     </div>

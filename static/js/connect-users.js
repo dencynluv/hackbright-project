@@ -5,13 +5,13 @@
 function showConnectionResults(results) {   //the results being passed in are the ones I set in my route
     var message = results;
     $("#connection-form").hide();
-    $("#flash").append(message); //look at coffee shop timer
+    $("#flash").append(message); //look at coffee shop timer for flash message to disappear
 }
 
 function sendRequest(evt) {
     // prevent page from reloading
     evt.preventDefault();
-    console.log("got into sendRequest"); //debugging
+    // console.log("got into sendRequest"); //debugging
 
     var formInput = {
         "email": $("#email-connection").val(),
