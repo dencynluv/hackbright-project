@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, jsonify, session as flask_session
+from flask import Flask, render_template, request, flash, redirect, session as flask_session #, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Notebook, NotebookUser, Note
@@ -54,7 +54,7 @@ def process_sign_up():
     # Might need for Twilio API
     # phone_number = int(request.form("phone"))
 
-    # Try: Check if user exists in database. 
+    # Try: Check if user exists in database.
     # If true, return it as an object and flash message, redirect to homepage route
     # Except: If false, go into exception and add user
     try:
@@ -133,12 +133,28 @@ def user_sign_out():
 def show_homepage():
     """Show homepage."""
 
-    return render_template("homepage.html")
+    # Get user from flask session
+    user = User.query.get(flask_session.get('current_user'))
+
+    # if user has notebooks
+    if user.notebooks:
+    # returns a list of notebook objects, so give me the first object
+        notebook = user.notebooks[0]
+
+    # Look up notes for user in DB, getting notebook_id from above
+        notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).all()
+
+    # pass those notes to the template as a list
+        return render_template("homepage.html", notes=notes)
+
+    else:
+
+        return render_template("homepage.html", notes=None)
 
 
-@app.route('/homepage', methods=['POST'])
+@app.route('/connection', methods=['POST'])
 def create_notebook():
-    """Create notebook and add users to that notebook."""
+    """Create notebook. Add and connect users to that notebook."""
 
     # query the User table and get the user_id(primary key) of the current_user
     # bind it to the user variable and instanciate it as an object
@@ -178,20 +194,13 @@ def create_notebook():
     db.session.add(notebook_user2)
     db.session.commit()
 
-    flash("Connection made!")
-
-    return redirect('/homepage')
+    return "Connection made!"
 
 
-@app.route('/new-note', methods=['POST'])
-def process_note():
-    """Create note and track user who wrote it."""
-
-    # have browser let me know what notebook user is editing through hidden form input
+def save_note(new_note):
 
     user = User.query.get(flask_session.get('current_user'))
 
-    # notebook = Notebook.query.get(notebook_id)
     # user.notebooks returns a list of notebooks the user has,
     # that is why I need to hard code for [0] to get the first notebook out of the list
     # I could for loop? to get each object(item) out
@@ -200,62 +209,30 @@ def process_note():
     #     for note in notebook.notes:
     #         message = note.note
     #         print message
+
     notebook = user.notebooks[0]
 
-    # Get form variables from homepage.html
-    new_note = request.form.get("note")
-
     # Instantiates new_note in the Note class
-
     new_note = Note(note=new_note,
                     user=user,
                     notebook=notebook)
 
-    # We need to add to the transaction or it won't be stored
     db.session.add(new_note)
-
-    # Once we're done, we should commit our work
     db.session.commit()
 
-    return redirect('/homepage')
 
-
-# Working progress (still not working, missing some connection?)
-@app.route('/show-all-notes.json', methods=['GET'])
-def show_notes():
+@app.route('/save-note', methods=['POST'])
+def show_note():
     """Display all notes"""
-    # function that serves back a json of all the notes for a given notebook id
 
-    # user_id = flask_session.get('current_user')
-
-    # import pdb;pdb.set_trace()
-    user = User.query.get(flask_session.get('current_user'))
-
-    # import pdb;pdb.set_trace()
-    notebook = user.notebooks[0]
-    # notebook_id = user.notebook.notebook_id
-
-    # current_note = request.args.get("note")
-
-    # db.session.add(current_note)
-    # db.session.commit()
-
+    # Get values from note-form via AJAX
     # import pdb;pdb.set_trace() #debugging
-    notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).all()
+    current_note = request.form.get("note")
 
-    all_notes = {}
+    # call save_note function and pass in the current_note
+    save_note(current_note)
 
-    for note in notes:
-        # print note.note
-
-        all_notes[note.note_id] = {
-            "message": note.note
-        }
-
-    # print all_notes #debuggin
-
-    return "Success"
-    # return jsonify(all_notes)
+    return current_note
 
 ##############################################################################
 # Helper functions

@@ -7,7 +7,8 @@
     <h1>This is the homepage</h1>
     
 <!-- Form that connects users to a notebook -->
-    <form action="/homepage" method="POST">
+<!-- if notes exist show them, if not show me form2 -->
+    <form id="connection-form" action="/connection" method="POST">
         <div class="form-group">
             <label for="email-connection">
                 Email of person you want to connect with:
@@ -21,10 +22,11 @@
             </label>
         </div>
         <div>
-            <input type="submit">
+            <input id="connect-btn" type="submit" value="Connect">
         </div>
     </form>
     <br>
+    <script src="/static/js/connect-users.js"></script>
 
 <!-- Form for note processing -->
     <form id="note-form" action="/new-note" method="POST">
@@ -35,7 +37,16 @@
             <input id="note-btn" type="submit" value="Send">
         </div>
     </form>
-    <div id="add-notes"></div>
+
+<!-- notes from /homepage route return a list of note objects-->
+<!-- if there are notes, loop through the list -->
+    <div class="notebook">
+    {% if notes %}
+     {% for note in notes %}
+        <div> {{ note.user_id }} says {{ note.note }}</div>
+     {% endfor %}
+    {% endif %}
+    </div>
 
     <script src="/static/js/display-notes.js"></script>
 {% endblock %}

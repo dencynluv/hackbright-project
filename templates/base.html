@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
+     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
+     <!-- <link rel="stylesheet" href="/static/css/styles.css"> -->
     <script src="https://code.jquery.com/jquery.js"></script>
 
     <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
-    <!-- <link rel="stylesheet" href="/static/css/styles.css"> -->
-    <!-- <script src="http://code.jquery.com/jquery.js"></script> -->
+
 </head>
 <body>
   <!-- <div class="container"> -->
@@ -15,7 +15,7 @@
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-      <ul class="flashes">
+      <ul id="flash-message" class="flashes">
           {% for message in messages %}
               <li>{{ message }}</li>
           {% endfor %}
