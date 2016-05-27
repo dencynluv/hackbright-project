@@ -8,6 +8,7 @@
     
 <!-- Form that connects users to a notebook -->
 <!-- if notes exist show them, if not show me form2 -->
+    {% if not notes %}
     <form id="connection-form" action="/connection" method="POST">
         <div class="form-group">
             <label for="email-connection">
@@ -26,6 +27,7 @@
         </div>
     </form>
     <br>
+    {% endif %}
     <script src="/static/js/connect-users.js"></script>
 
 <!-- Form for note processing -->
