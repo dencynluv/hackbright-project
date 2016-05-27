@@ -173,40 +173,6 @@ def create_notebook():
     except NoResultFound:
         flash("Sorry. This user doesn't exist")
         return redirect('/homepage')
-        
-#############################################################################
-# Working progress Checking if user1 and user2 has a connection
-
-    # user1_id = user1.user_id
-    # user2_id = user2.user_id
-
-    # user1_notebook = db.session.query(NotebookUser).filter(NotebookUser.user_id == user1_id).first()
-
-    # if user1_notebook is not None:
-    #     user1_notebook_id = user1_notebook.notebook_id
-    # # returns 1
-
-    # user2_notebook = db.session.query(NotebookUser).filter(NotebookUser.user_id == user2_id).first()
-    # user2_notebook_id = user2_notebook.notebook_id
-
-    # # Only need this for multiple users in multiple notebooks
-    # # if user1_notebook_id != user2_notebook_id:
-    # #     this means user1 has a notebook id but not together with user2
-    # #     we want to instantiate a notebook for them
-
-    # # if both users have same notebook_id, it means they are connected to one notebook
-    # # and we do NOT want to create another notebook for the two of them
-    # if user1_notebook_id == user2_notebook_id:
-    #     # we dont want to instantiate a notebook b/c both share a notebook
-    #     return "You already have a notebook together"
-
-    # # if both users don't have a notebook at all, we want to create a notebook
-    # elif user1_notebook_id is None and user2_notebook_id is None:
-    #     # instantiate a notebook b/c they dont have a notebook together
-
-    # # query just for the first notebook because once connection is made I will hide the connection-form
-    # # so the user can't connect with anyone else. No need to query for multiple notebooks user may have.
-#############################################################################
 
     # instanciates notebook in the Notebook class
     # passes in title argument if given
