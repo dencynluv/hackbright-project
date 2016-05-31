@@ -2,6 +2,7 @@
 
 from flask_sqlalchemy import SQLAlchemy
 
+import datetime
 # This is the connection to the PostgreSQL database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
 # object, where we do most of our interactions (like committing, etc.)
@@ -31,10 +32,21 @@ class User(db.Model):
                                 secondary="notebook_users",
                                 backref="users")
 
+    favorites = db.relationship("Note",
+                                secondary="favorite_notes",
+                                backref="users")
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return "<User id=%s first_name=%s last_name=%s email=%s>" % (self.user_id, self.first_name, self.last_name, self.email)
+
+    # def to_dict(self):
+    #     return {
+    #         'id': self.user_id,
+    #         'name': '%s %s' % (self.first_name, self.last_name),
+    #         'email': self.email
+    #     }
 
 
 class Notebook(db.Model):
@@ -50,6 +62,12 @@ class Notebook(db.Model):
         """Provide helpful representation when printed."""
 
         return "<Notebook id=%s title=%s>" % (self.notebook_id, self.title)
+
+    # def to_dict(self):
+    #     return {
+    #         'id': self.notebook_id,
+    #         'title': self.title
+    #     }
 
 
 class NotebookUser(db.Model):
@@ -75,6 +93,13 @@ class NotebookUser(db.Model):
 
         return "<Notebook User id=%s user_id=%s notebook_id=%s>" % (self.notebook_user_id, self.user_id, self.notebook_id)
 
+    # def to_dict(self):
+    #     return {
+    #         'id': self.notebook_user_id,
+    #         'user': self.users.to_dict(),
+    #         'notebook': self.notebooks.to_dict()
+    #     }
+
 
 class Note(db.Model):
     """Note created by a user."""
@@ -87,7 +112,7 @@ class Note(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.notebook_id'), nullable=False)
     # Set default for timestamp of current time at UTC time zone
-    # posted_At = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    posted_At = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # Define relationship to user
     user = db.relationship("User",
@@ -101,6 +126,45 @@ class Note(db.Model):
         """Provide helpful representation when printed."""
 
         return "<Note id=%s user_id=%s notebook_id=%s>" % (self.note_id, self.user_id, self.notebook_id)
+
+    # def to_dict(self):
+    #     return {
+    #         'id': self.note_id,
+    #         'message': self.note,
+    #         'user': self.users.to_dict(),
+    #         'notebook': self.notebooks.to_dict(),
+    #         'date': self.posted_At
+    #     }
+
+
+class FavoriteNote(db.Model):
+    """Note favorited by a user."""
+
+    __tablename__ = "favorite_notes"
+
+    # creates columns in my "favorite_notes" table
+    favorite_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    note_id = db.Column(db.Integer, db.ForeignKey('notes.note_id'), nullable=False)
+
+    user = db.relationship("User",
+                           backref="favorite_notes")
+
+    note = db.relationship("Note",
+                           backref="favorite_notes")
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Favorite Note id=%s user_id=%s note_id=%s>" % (self.favorite_id, self.user_id, self.note_id)
+
+    # def to_dict(self):
+    #     return {
+    #         'id': self.favorite_id,
+    #         'user': self.users.to_dict(),
+    #         'note': self.notes.to_dict(),
+    #     }
+
 
 
 ##############################################################################

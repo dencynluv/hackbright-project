@@ -36,7 +36,7 @@
             <textarea id="note-field" cols="40" rows="4" type="text", name="note" placeholder="type your note..."></textarea>
         </div>
         <div>
-            <input id="note-btn" type="submit" value="Send">
+            <input id="note-btn" class="btn btn-primary" type="submit" value="Send">
         </div>
     </form>
     <br>
@@ -46,9 +46,14 @@
     {% if notes %}
      {% for note in notes %}
         <div> {{ note.user.first_name }} says {{ note.note }}</div>
+        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+        <!-- <button id="favorite-btn" class="favorite-btn">&hearts; Favorite</button> -->
      {% endfor %}
     {% endif %}
+    <!-- <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> -->
     </div>
+    <!-- figure out how to add a favorite button -->
+    <!-- <button id="favorite-btn" class="favorite-btn">&hearts; Favorite</button> -->
 
     <script src="/static/js/display-notes.js"></script>
 {% endblock %}
