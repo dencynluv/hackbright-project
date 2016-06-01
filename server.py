@@ -211,6 +211,44 @@ def show_note():
 
     return current_note
 
+# WORKING PROGRESS
+# @app.route('/favorites', methods=['GET'])
+# def show_favorites():
+#     """Display all favorite notes"""
+
+#     # Get user from flask session
+#     user = User.query.get(flask_session.get('current_user'))
+
+#     if user.favorites:
+
+
+#         # Get all favorite_notes for current_user
+#         favorite_notes = db.session.query(FavoriteNote).filter(FavoriteNote.user_id == user.user_id).all()
+
+#     return render_template("favorites.html", favorite_notes=favorite_notes)
+
+#     else:
+
+#         return render_template("favorites.html", favorite_notes=None)
+
+
+
+# def add_to_favorites():
+
+#     # Get user from flask session
+#     user = User.query.get(flask_session.get('current_user'))
+
+#     favorite
+
+#     # instanciate favorite note in the FavoriteNote class
+#     favorite_note = FavoriteNote(user=user,
+#                                  note= )
+
+#     db.session.add(favorite_note)
+#     db.session.commit()
+
+
+
 ##############################################################################
 # Helper functions
 

@@ -32,8 +32,8 @@ class User(db.Model):
                                 secondary="notebook_users",
                                 backref="users")
 
-    favorites = db.relationship("Note",
-                                secondary="favorite_notes",
+    favorite_notes = db.relationship("Note",
+                                secondary="favorites",
                                 backref="users")
 
     def __repr__(self):
@@ -140,7 +140,7 @@ class Note(db.Model):
 class FavoriteNote(db.Model):
     """Note favorited by a user."""
 
-    __tablename__ = "favorite_notes"
+    __tablename__ = "favorites"
 
     # creates columns in my "favorite_notes" table
     favorite_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -148,10 +148,10 @@ class FavoriteNote(db.Model):
     note_id = db.Column(db.Integer, db.ForeignKey('notes.note_id'), nullable=False)
 
     user = db.relationship("User",
-                           backref="favorite_notes")
+                           backref="favorites")
 
     note = db.relationship("Note",
-                           backref="favorite_notes")
+                           backref="favorites")
 
     def __repr__(self):
         """Provide helpful representation when printed."""

@@ -3,8 +3,14 @@
 {% block title %}Homepage{% endblock %}
 
 {% block content %}
+    <div>
+        <h1>This is the homepage</h1>
+    </div>
 
-    <h1>This is the homepage</h1>
+    <div>
+        <a href="/favorites">Favorites</a>
+    </div>
+    <br>
     
 <!-- Form that connects users to a notebook -->
 <!-- if notes exist show them, if not show me form2 -->
@@ -56,4 +62,5 @@
     <!-- <button id="favorite-btn" class="favorite-btn">&hearts; Favorite</button> -->
 
     <script src="/static/js/display-notes.js"></script>
+
 {% endblock %}
