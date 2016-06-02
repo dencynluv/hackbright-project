@@ -11,7 +11,7 @@
         <a href="/favorites">Favorites</a>
     </div>
     <br>
-    
+
 <!-- Form that connects users to a notebook -->
 <!-- if notes exist show them, if not show me form2 -->
     {% if not notes %}
@@ -34,7 +34,7 @@
     </form>
     <br>
     {% endif %}
-    <script src="/static/js/connect-users.js"></script>
+    <!-- <script src="/static/js/connect-users.js"></script> -->
 
 <!-- Form for note processing -->
     <form id="note-form" action="/new-note" method="POST">
@@ -46,19 +46,26 @@
         </div>
     </form>
     <br>
+
 <!-- notes from /homepage route return a list of note objects-->
 <!-- if there are notes, loop through the list -->
     <div class="notebook">
     {% if notes %}
-     {% for note in notes %}
-        <div> {{ note.user.first_name }} says {{ note.note }}</div>
-        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-        <!-- <button id="favorite-btn" class="favorite-btn">&hearts; Favorite</button> -->
-     {% endfor %}
+        {% for note in notes %}
+            <div >{{ note.user.first_name }} says {{ note.note }}</div>
+            <div>{{ note.posted_At.month }}/{{ note.posted_At.day }}/{{ note.posted_At.year }}</div>
+
+            {% if note.note_id in favorite_note_ids %}
+                <i id="{{ note.note_id }}" class="fa fa-heart" aria-hidden="true"></i>
+            {% else %}
+                <i id="{{ note.note_id }}" class="fa fa-heart-o" aria-hidden="true"></i>
+            {% endif %}
+
+        {% endfor %}
     {% endif %}
     <!-- <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> -->
     </div>
-    <!-- figure out how to add a favorite button -->
+    <!-- figure out how to add a favorite button to current note posted -->
     <!-- <button id="favorite-btn" class="favorite-btn">&hearts; Favorite</button> -->
 
     <script src="/static/js/display-notes.js"></script>

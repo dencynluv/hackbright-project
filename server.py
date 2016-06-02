@@ -2,10 +2,10 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session as flask_session #, jsonify
+from flask import Flask, render_template, request, flash, redirect, session as flask_session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, User, Notebook, NotebookUser, Note
+from model import connect_to_db, db, User, Notebook, NotebookUser, Note, FavoriteNote
 
 # Import SQLALchemy exception for try/except
 from sqlalchemy.orm.exc import NoResultFound
@@ -145,15 +145,26 @@ def show_homepage():
     # Look up notes for user in DB, getting notebook_id from above
         notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).all()
 
-    # pass those notes to the template as a list
-        return render_template("homepage.html", notes=notes)
+        # import pdb;pdb.set_trace()
+        # Get all favorite_notes for current_user
+        favorite_notes = db.session.query(FavoriteNote).filter(FavoriteNote.user_id == user.user_id).all()
+
+        favorite_note_ids = []
+
+        for fav_note in favorite_notes:
+            favorite_note_ids.append(fav_note.note_id)
 
     else:
+        notes = []
+        favorite_note_ids = []
 
-        return render_template("homepage.html", notes=None)
+    # pass those notes to the template as a list
+    return render_template("homepage.html",
+                            notes=notes,
+                            favorite_note_ids=favorite_note_ids)
 
 
-@app.route('/connection', methods=['POST'])
+@app.route('/connection.json', methods=['POST'])
 def create_notebook():
     """Create notebook. Add and connect users to that notebook."""
 
@@ -195,13 +206,16 @@ def create_notebook():
     db.session.add(notebook_user2)
     db.session.commit()
 
-    return "Connection made!"
+    return jsonify(status="Connection made!")
 
 
-@app.route('/save-note', methods=['POST'])
+@app.route('/save-note.json', methods=['POST'])
 def show_note():
     """Display all notes"""
 
+    user = User.query.get(flask_session.get('current_user'))
+
+    first_n = user.first_name
     # Get values from note-form via AJAX
     # import pdb;pdb.set_trace() #debugging
     current_note = request.form.get("note")
@@ -209,44 +223,48 @@ def show_note():
     # call save_note function and pass in the current_note
     save_note(current_note)
 
-    return current_note
-
-# WORKING PROGRESS
-# @app.route('/favorites', methods=['GET'])
-# def show_favorites():
-#     """Display all favorite notes"""
-
-#     # Get user from flask session
-#     user = User.query.get(flask_session.get('current_user'))
-
-#     if user.favorites:
+    return jsonify(current_note=current_note, first_n=first_n)
 
 
-#         # Get all favorite_notes for current_user
-#         favorite_notes = db.session.query(FavoriteNote).filter(FavoriteNote.user_id == user.user_id).all()
+@app.route('/add-to-favorites.json', methods=['POST'])
+def add_to_favorites():
+    """Save favorite note"""
 
-#     return render_template("favorites.html", favorite_notes=favorite_notes)
+    # Get user from flask session
+    user = User.query.get(flask_session.get('current_user'))
 
-#     else:
+    # import pdb;pdb.set_trace()
+    note_id = request.form.get("note_id")
+    # print "********** note id**********", note_id
 
-#         return render_template("favorites.html", favorite_notes=None)
+    # instanciate favorite note in the FavoriteNote class
+    favorite_note = FavoriteNote(user=user,
+                                 note_id=note_id)
+
+    db.session.add(favorite_note)
+    db.session.commit()
+
+    # returning note_id
+    return jsonify(note_id=note_id)
 
 
+@app.route('/favorites', methods=['GET'])
+def show_favorites():
+    """Display all favorite notes"""
 
-# def add_to_favorites():
+    # Get user from flask session
+    user = User.query.get(flask_session.get('current_user'))
 
-#     # Get user from flask session
-#     user = User.query.get(flask_session.get('current_user'))
+    if user.favorites:
 
-#     favorite
+        # Get all favorite_notes for current_user
+        favorite_notes = db.session.query(FavoriteNote).filter(FavoriteNote.user_id == user.user_id).all()
 
-#     # instanciate favorite note in the FavoriteNote class
-#     favorite_note = FavoriteNote(user=user,
-#                                  note= )
+        return render_template("favorites.html", favorite_notes=favorite_notes)
 
-#     db.session.add(favorite_note)
-#     db.session.commit()
+    else:
 
+        return render_template("favorites.html", favorite_notes=None)
 
 
 ##############################################################################

@@ -32,9 +32,6 @@ class User(db.Model):
                                 secondary="notebook_users",
                                 backref="users")
 
-    favorite_notes = db.relationship("Note",
-                                secondary="favorites",
-                                backref="users")
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -149,6 +146,7 @@ class FavoriteNote(db.Model):
 
     user = db.relationship("User",
                            backref="favorites")
+    # When starting as a User instance I can call cheescake.favorites
 
     note = db.relationship("Note",
                            backref="favorites")

@@ -17,6 +17,8 @@ def save_note(new_note):
     #         message = note.note
     #         print message
 
+    # what are the bits of information I need to create this note?
+    # (in this case I need 2. user and notebook note will go into)
     notebook = user.notebooks[0]
 
     # Instantiates new_note in the Note class

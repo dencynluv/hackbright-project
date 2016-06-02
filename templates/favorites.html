@@ -10,8 +10,12 @@
         {% if favorite_notes %}
             {% for favorite in favorite_notes %}
                 <div>
-
+                    {{ favorite.note.note }}
                 </div>
+            {% endfor %}
+        {% endif %}
     </div>
-
-'/favorites'
+    <br>
+    <a href="/homepage">Back to Homepage</a>
+{% endblock %}
+<!-- '/favorites' -->
