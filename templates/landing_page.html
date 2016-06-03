@@ -1,15 +1,241 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <div id="homepage-block">
-        <!-- <h1 id="homepage-title">Web App Title</h1> -->
+<!-- OLD FUNCTIONAL SIGN UP FORM -->
+<!-- Sign Up Button trigger modal -->
+<!-- <div class="container">
+  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signUpModal">Sign Up</button> -->
+
+  <!-- Modal -->
+<!--   <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog" role="document"> -->
+
+      <!-- Modal content-->
+<!--       <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel" align="left">Sign Up</h4>
+        </div>
+
+        <div class="modal-body">
+          <form action="/process-sign-up" method="POST">
+            <div class="form-group">
+              <label for="first-name">
+                First Name:
+                <input id="first-name" type="text" name="first-name" required>
+              </label>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="last-name">
+                Last Name:
+                <input id="last-name" type="text" name="last-name" required>
+              </label>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="email">
+                Email:
+                <input id="email" type="email" name="email" placeholder="example@email.com" required>
+              </label>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="password">
+                Password:
+                <input id="password" type="password" name="password" required>
+              </label>
+            </div>
+            <br> -->
+            <!-- Might need phone# from user for Twiilio API -->
+            <!-- <div class="form-group">
+              <label for="phone-number">
+                Phone number:
+                <input id="phone-number" type="number" name="phone" required>
+              </label>
+            </div> -->     
+<!--         </div>
+
+      <div class="modal-footer">
+        <button id="submit" type="submit" class="btn btn-primary">Sign Up</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <p>Already have an account? <a href="/sign-in">Sign-in here</a></p>
+      </div></form> 
+
     </div>
 
-    <!-- <h2>Sign-up</h2> -->
-    <h3><a href="/sign-up">Sign Up</a></h3>
+  </div>
 
-    <!-- <h2>Sign-In</h2> -->
-    <h3><a href="/sign-in">Sign In</a></h3>
+</div> -->
+
+  <!-- Sign Up button trigger modal -->
+ <div class="container"> 
+  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="signUpModal" role="dialog">
+
+    <div class="modal-dialog" role="document">
     
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4><span class="glyphicon glyphicon-lock"></span> Sign Up</h4>
+        </div>
+        <div class="modal-body" style="padding:40px 50px;">
+          <form action="/process-sign-up" method="POST">
+            <div class="form-group">
+              <label for="first-name">
+                First Name:
+                <input id="first-name" type="text" name="first-name" required>
+              </label>
+            </div>
+          
+            <div class="form-group">
+              <label for="last-name">
+                Last Name:
+                <input id="last-name" type="text" name="last-name" required>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">
+                Email:
+                <input id="email" type="email" name="email" placeholder="example@email.com" required>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label for="password">
+                Password:
+                <input id="password" type="password" name="password" required>
+              </label>
+            </div>
+            
+            <!-- Might need phone# from user for Twiilio API -->
+            <!-- <div class="form-group">
+              <label for="phone-number">
+                Phone number:
+                <input id="phone-number" type="number" name="phone" required>
+              </label>
+            </div> -->     
+            <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Sign Up</button>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <p>Already have an account? <a href="/sign-in">Sign in</a></p>
+        </div>
+      </div>
+      
+    </div>
+  </div> 
+</div>
+
+
+
+<!-- OLD FUNCTIONAL SIGN IN FORM -->
+<!-- Sign In Button trigger modal -->
+<!-- <div class="container">
+  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signInModal">Sign In</button> -->
+
+  <!-- Modal -->
+<!--   <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog" role="document"> -->
+
+      <!-- Modal content-->
+<!--       <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel" align="left">Sign In</h4>
+        </div>
+
+        <div class="modal-body">
+          <form action="/process-sign-in" method="POST">
+            <div class="form-group">
+              <label for="email">
+                Email:
+                <input id="email" type="email" name="email" placeholder="example@email.com" required>
+              </label>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="password">
+                Password:
+                <input id="password" type="password" name="password" required>
+              </label>
+            </div>
+        </div>
+
+      <div class="modal-footer">
+        <button id="submit" type="submit" class="btn btn-primary">Sign In</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <p>Don't have an account yet? <a href="/sign-up">Sign up here</a></p>
+      </div></form>  
+
+    </div>
+
+  </div>
+
+</div> -->
+
+
+
+
+  <!-- Sign In button trigger modal -->
+ <div class="container"> 
+  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signInModal">Sign In</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="signInModal" role="dialog">
+
+    <div class="modal-dialog" role="document">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4><span class="glyphicon glyphicon-lock"></span> Sign In</h4>
+        </div>
+        <div class="modal-body" style="padding:40px 50px;">
+          <form action="/process-sign-in" method="POST">
+            <div class="form-group">
+              <label for="email"><span class="glyphicon glyphicon-user"></span> 
+                Email
+              </label>
+              <input id="email" type="email" name="email" class="form-control"  placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+              <label for="password"><span class="glyphicon glyphicon-eye-open"></span>
+                Password
+              </label>
+              <input id="password" type="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+<!--             <div class="checkbox">
+              <label><input type="checkbox" value="" checked>Remember me</label>
+            </div> -->
+              <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Sign In</button>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <p>Not a member? <a href="/sign-up">Sign up</a></p>
+<!--           <p>Forgot <a href="#">Password?</a></p> -->
+        </div>
+      </div>
+      
+    </div>
+  </div> 
+</div>
+
 
 {% endblock %}
