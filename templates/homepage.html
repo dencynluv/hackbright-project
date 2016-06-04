@@ -3,6 +3,7 @@
 {% block title %}Homepage{% endblock %}
 
 {% block content %}
+    
     <div>
         <h1>This is the homepage</h1>
     </div>
@@ -34,7 +35,7 @@
     </form>
     <br>
     {% endif %}
-    <!-- <script src="/static/js/connect-users.js"></script> -->
+
 
 <!-- Form for note processing -->
     <form id="note-form" action="/new-note" method="POST">
@@ -68,6 +69,6 @@
     <!-- figure out how to add a favorite button to current note posted -->
     <!-- <button id="favorite-btn" class="favorite-btn">&hearts; Favorite</button> -->
 
-    <script src="/static/js/display-notes.js"></script>
+    <script src="/static/js/notes.js"></script>
 
 {% endblock %}

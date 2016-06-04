@@ -12,6 +12,8 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from processing_data import save_note
 
+from send_sms import text_alert
+
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
@@ -52,6 +54,7 @@ def process_sign_up():
     last_name = request.form.get("last-name")
     email = request.form.get("email")
     password = request.form.get("password")
+    phone = request.form.get("phone")
     # Might need for Twilio API
     # phone_number = int(request.form("phone"))
 
@@ -66,7 +69,8 @@ def process_sign_up():
         new_user = User(first_name=first_name,
                         last_name=last_name,
                         email=email,
-                        password=password)
+                        password=password,
+                        phone=phone)
 
         # Add it to the transaction or it won't be stored
         db.session.add(new_user)
@@ -221,7 +225,12 @@ def show_note():
     current_note = request.form.get("note")
 
     # call save_note function and pass in the current_note
-    save_note(current_note)
+    # also has condition if this function is called
+    # calls twilio function to send text
+    # (Recursion)
+    if save_note(current_note):
+
+        text_alert()
 
     return jsonify(current_note=current_note, first_n=first_n)
 

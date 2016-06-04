@@ -100,3 +100,4 @@ $(function (){ // this is the jquery shortcut for document.ready()
     $(".fa.fa-heart-o").click(addToFavorites);
 
 });
+

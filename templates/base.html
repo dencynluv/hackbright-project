@@ -32,8 +32,40 @@
 
 </head>
 <body>
+
+<nav class="navbar navbar-default">
   <div class="container-fluid">
-    <h1>Cheesecake Notes</h1>
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Cheescake Notes</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+      <!-- I am only showing sign out button if user is already signed in -->
+        {% if session %}
+          <li>
+            <button type="button" class="btn btn-default"><a href="/sign-out">Sign Out</a></button>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+  <div class="container">
+    
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -45,12 +77,9 @@
      {% endif %} 
   {% endwith %} 
 
-<!-- I am only showing sign out button if user is already signed in -->
-{% if session %}
-    <h2>Sign-Out</h2>
-    <p><a href="/sign-out">Sign Out</a></p>
-{% endif %}
 
+
+  </div>
     {% block content %}
 
     BODY CONTENT GOES HERE
@@ -59,6 +88,6 @@
 
     {% endblock %}
     <!-- <footer>Copyright 2015 Ubermelon</footer> -->
-  <!-- </div> -->
+  
 </body>
 </html>

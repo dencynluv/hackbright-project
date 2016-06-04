@@ -24,6 +24,7 @@ class User(db.Model):
     last_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(60), unique=True, nullable=False)
     password = db.Column(db.String(20), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
 
     # Define relationship to Notebook class,
     # go thru notebook_users table, to get to users table
