@@ -1,17 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="container-fluid">
+  <div class="landing">
+
+    <div class="row">
+      <div class="jumbotron col-xs-offset-4 col-xs-4" id="jumbo-box">
+        <div class="authentication-box">
+          <h3 class="login-labels">Sign In</h3>
+          <form action="/process-sign-in" method="POST">
+            <div class="form-group">
+              <label for="email"> 
+              </label>
+              <input id="email" type="email" name="email" class="form-control"  placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">
+              </label>
+              <input id="password" type="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+            <button id="sign-in-btn" type="submit" class="btn btn-block">Sign In</button>
+          </form>
+          <p>Not a member? <a href="/sign-up">Sign up</a></p>
+        </div>
+      </div>
+    </div>   
+
+  </div>
+</div>
+
 <!-- Sign Up button trigger modal -->
-<div class="container"> 
-  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+<!-- <div class="container"> 
+  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signUpModal">Sign Up</button> -->
 
   <!-- Modal -->
-  <div class="modal fade" id="signUpModal" role="dialog">
+  <!-- <div class="modal fade" id="signUpModal" role="dialog">
 
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document"> -->
     
       <!-- Modal content-->
-      <div class="modal-content">
+      <!-- <div class="modal-content">
         <div class="modal-header" style="padding:35px 50px;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4><span class="glyphicon glyphicon-lock"></span> Sign Up</h4>
@@ -20,37 +48,31 @@
           <form action="/process-sign-up" method="POST">
             <div class="form-group">
               <label for="first-name">
-                First Name:
-                <input id="first-name" type="text" name="first-name" required>
+                <input id="first-name" type="text" name="first-name" placeholder="First Name"required>
               </label>
             </div>
           
             <div class="form-group">
               <label for="last-name">
-                Last Name:
-                <input id="last-name" type="text" name="last-name" required>
+                <input id="last-name" type="text" name="last-name" placeholder="Last Name"required>
               </label>
             </div>
             
             <div class="form-group">
               <label for="email">
-                Email:
                 <input id="email" type="email" name="email" placeholder="example@email.com" required>
               </label>
             </div>
             
             <div class="form-group">
               <label for="password">
-                Password:
-                <input id="password" type="password" name="password" required>
+                <input id="password" type="password" name="password" placeholder="Password"required>
               </label>
             </div>
             
-            <!-- Might need phone# from user for Twiilio API -->
             <div class="form-group">
               <label for="phone-number">
-                Phone number:
-                <input id="phone-number" type="number" name="phone" required>
+                <input id="phone-number" type="number" name="phone" placeholder="Phone Number"required>
               </label>
             </div>     
             <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Sign Up</button>
@@ -66,20 +88,20 @@
     </div>
   </div> 
 </div>
-
+ -->
 
 
 <!-- Sign In button trigger modal -->
-<div class="container"> 
-  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signInModal">Sign In</button>
+<!-- <div class="container"> 
+  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#signInModal">Sign In</button> -->
 
   <!-- Modal -->
-  <div class="modal fade" id="signInModal" role="dialog">
+  <!-- <div class="modal fade" id="signInModal" role="dialog">
 
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document"> -->
     
       <!-- Modal content-->
-      <div class="modal-content">
+      <!-- <div class="modal-content">
         <div class="modal-header" style="padding:35px 50px;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4><span class="glyphicon glyphicon-lock"></span> Sign In</h4>
@@ -97,24 +119,24 @@
                 Password
               </label>
               <input id="password" type="password" name="password" class="form-control" placeholder="Enter password" required>
-            </div>
+            </div> -->
 <!--             <div class="checkbox">
               <label><input type="checkbox" value="" checked>Remember me</label>
             </div> -->
-              <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Sign In</button>
+              <!-- <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Sign In</button>
           </form>
-        </div>
+        </div> -->
 
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-          <p>Not a member? <a href="/sign-up">Sign up</a></p>
+          <p>Not a member? <a href="/sign-up">Sign up</a></p> -->
 <!--           <p>Forgot <a href="#">Password?</a></p> -->
-        </div>
+  <!--       </div>
       </div>
       
     </div>
   </div> 
-</div>
+</div> -->
 
 
 

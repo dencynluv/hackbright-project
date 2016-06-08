@@ -4,8 +4,55 @@
 
 {% block content %}
 
+<div class="container-fluid">
+  <div class="landing">
+
+    <div class="row">
+      <div class="jumbotron col-xs-offset-4 col-xs-4" id="jumbo-box">
+        <div class="authentication-box">
+          <h3 class="login-labels">Sign Up</h3>
+          <form action="/process-sign-up" method="POST">
+            <div class="form-group">
+              <label for="first-name">
+                <input id="first-name" type="text" name="first-name" class="form-control" placeholder="First Name" required>
+              </label>
+            </div>
+          
+            <div class="form-group">
+              <label for="last-name">
+                <input id="last-name" type="text" name="last-name" class="form-control" placeholder="Last Name" required>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">
+                <input id="email" type="email" name="email" class="form-control" placeholder="example@email.com" required>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label for="password">
+                <input id="password" type="password" name="password" class="form-control" placeholder="Password" required>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone-number">
+                <input id="phone-number" type="number" name="phone" class="form-control" placeholder="Phone Number" required>
+              </label>
+            </div>     
+            <button id="sign-up-btn" type="submit" class="btn btn-block"> Sign Up</button>
+          </form>
+          <p>Already have an account? <a href="/">Sign-in</a></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- Sign Up Form -->
-    <h2>Sign Up</h2>
+    <!-- <h2>Sign Up</h2>
 
     <form action="/process-sign-up" method="POST">
         <div class="form-group">
@@ -35,7 +82,7 @@
                 <input id="password" type="password" name="password" required>
             </label>
         </div>
-        <br>
+        <br> -->
         <!-- Might need phone# from user for Twiilio API -->
        <!--  <div class="form-group">
             <label for="phone-number">
@@ -44,11 +91,11 @@
             </label>
         </div>
         <br> -->
-        <div class="form-group">
+  <!--       <div class="form-group">
             <input type="submit" value="Sign Up">
         </div>
     </form>
     <br>
-    <p>Already have an account? <a href="/sign-in">Sign-in here</a></p>
+    <p>Already have an account? <a href="/sign-in">Sign-in here</a></p> -->
 
 {% endblock %}

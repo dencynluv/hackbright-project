@@ -226,8 +226,7 @@ def show_note():
 
     # call save_note function and pass in the current_note
     # also has condition if this function is called
-    # calls twilio function to send text
-    # (Recursion)
+    # calls twilio function to send text (Recursion)
     if save_note(current_note):
 
         text_alert()
@@ -283,12 +282,12 @@ if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
 
-    app.debug = True
+    # app.debug = True
 
     connect_to_db(app)
 
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     # run the flask app
     app.run()

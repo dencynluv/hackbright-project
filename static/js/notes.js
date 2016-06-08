@@ -46,6 +46,12 @@ function showNoteResults(results) {   //the results being passed in are the ones
     $("#note-field").val("");
 }
 
+// closes the note modal
+$("#note-btn").click(function() {
+        window.location = "/homepage";
+});
+
+
 function sendNote(evt) {
     // prevent page from reloading
     evt.preventDefault();
@@ -64,7 +70,6 @@ function sendNote(evt) {
 // listen for submit button
 // run the getAllNotes function
 $("#note-form").on("submit", sendNote);
-
 
 
 // *************Favorites a notes**************************
@@ -93,7 +98,7 @@ $(function (){ // this is the jquery shortcut for document.ready()
 
         // console.log('result works');
 
-        $('#' + note_id).attr('class', 'fa fa-heart').css('color', 'red');
+        $('#' + note_id).attr('class', 'fa fa-heart fa-lg').css('color', '#fc4e6a');
         // give our user some feedback
     }
 

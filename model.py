@@ -33,7 +33,6 @@ class User(db.Model):
                                 secondary="notebook_users",
                                 backref="users")
 
-
     def __repr__(self):
         """Provide helpful representation when printed."""
 
@@ -44,6 +43,7 @@ class User(db.Model):
     #         'id': self.user_id,
     #         'name': '%s %s' % (self.first_name, self.last_name),
     #         'email': self.email
+    #         'phone': self.phone
     #     }
 
 
