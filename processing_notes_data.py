@@ -30,7 +30,10 @@ def save_note(new_note):
     db.session.commit()
 
 
-def other_user_phone(user_id):
+def other_user_phone(user):
+
+    # grab the user's id
+    user_id = user.user_id
 
     # could pass in notebook as argument if notebook id was stored in flask_session
     actual_notebook = user.notebooks[0]
@@ -38,6 +41,10 @@ def other_user_phone(user_id):
     # list of users living in actual_notebook
     notebook_users = actual_notebook.users
 
+    # loops thru list of notebook_users
+    # and pulls out individual user objects
     for notebook_user in notebook_users:
+        # if the user's id is not the current user id pass in above
         if notebook_user.user_id != user_id:
+            # give back the phone number of the other user
             return notebook_user.phone

@@ -10,7 +10,7 @@ from model import connect_to_db, db, User, Notebook, NotebookUser, Note, Favorit
 # Import SQLALchemy exception for try/except
 from sqlalchemy.orm.exc import NoResultFound
 
-from processing_data import save_note, other_user_phone
+from processing_notes_data import save_note, other_user_phone
 
 from send_sms import text_alert
 
@@ -219,8 +219,7 @@ def show_note():
 
     user = User.query.get(flask_session.get('current_user'))
 
-    user_id = user.user_id
-
+    # passes user's first name to display author of a note
     first_n = user.first_name
 
     # Get values from note-form via AJAX
@@ -231,8 +230,8 @@ def show_note():
     save_note(current_note)
 
     # call other_user_phone function and pass in the current
-    # user's id, then bind the return value to the variable phone
-    phone = other_user_phone(user_id)
+    # user object, then bind the return value to the variable phone
+    phone = other_user_phone(user)
 
     # call text_alert funtion and pass in the phone from above
     text_alert(phone)

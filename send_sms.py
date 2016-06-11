@@ -11,6 +11,6 @@ def text_alert(phone):
 
     client = TwilioRestClient(account_sid, auth_token)
 
-    message = client.messages.create(body="You have a note waiting to be read!",
+    message = client.messages.create(body="You have a note waiting to be read! Go and check it out on WOURDS",
                                     from_=twilio_number,
                                     to=phone)
