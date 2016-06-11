@@ -10,7 +10,7 @@ from model import connect_to_db, db, User, Notebook, NotebookUser, Note, Favorit
 # Import SQLALchemy exception for try/except
 from sqlalchemy.orm.exc import NoResultFound
 
-from processing_data import save_note
+from processing_data import save_note, other_user_phone
 
 from send_sms import text_alert
 
@@ -219,17 +219,23 @@ def show_note():
 
     user = User.query.get(flask_session.get('current_user'))
 
+    user_id = user.user_id
+
     first_n = user.first_name
+
     # Get values from note-form via AJAX
     # import pdb;pdb.set_trace() #debugging
     current_note = request.form.get("note")
 
     # call save_note function and pass in the current_note
-    # also has condition if this function is called
-    # calls twilio function to send text (Recursion)
-    if save_note(current_note):
+    save_note(current_note)
 
-        text_alert()
+    # call other_user_phone function and pass in the current
+    # user's id, then bind the return value to the variable phone
+    phone = other_user_phone(user_id)
+
+    # call text_alert funtion and pass in the phone from above
+    text_alert(phone)
 
     return jsonify(current_note=current_note, first_n=first_n)
 

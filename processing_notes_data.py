@@ -28,3 +28,16 @@ def save_note(new_note):
 
     db.session.add(new_note)
     db.session.commit()
+
+
+def other_user_phone(user_id):
+
+    # could pass in notebook as argument if notebook id was stored in flask_session
+    actual_notebook = user.notebooks[0]
+
+    # list of users living in actual_notebook
+    notebook_users = actual_notebook.users
+
+    for notebook_user in notebook_users:
+        if notebook_user.user_id != user_id:
+            return notebook_user.phone

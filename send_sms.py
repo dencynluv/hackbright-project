@@ -2,7 +2,7 @@
 from twilio.rest import TwilioRestClient
 import os
 
-def text_alert():
+def text_alert(phone):
 
     # Twilio Account Information
     account_sid = os.environ["TWILIO_ACCOUNT_SID"]
@@ -13,4 +13,4 @@ def text_alert():
 
     message = client.messages.create(body="You have a note waiting to be read!",
                                     from_=twilio_number,
-                                    to="")
+                                    to=phone)
