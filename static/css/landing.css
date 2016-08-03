@@ -1,0 +1,88 @@
+html {
+	height: 100%;
+}
+
+body {
+/*	background-image: url(https://hd.unsplash.com/photo-1468775318753-2f85b351db51);
+	background-size: cover;
+	background-position: center;*/
+	background-color: #242E45;
+	font-family: Karla;
+	color: white;
+}
+
+h1 {
+	font-weight: 700;
+	font-size: 3em;
+}
+
+/*hr {
+	width: 650px;
+	border-top: 1px solid #f8f8f8;
+	border-bottom: 1px solid rgba(0,0,0,0.2);*/
+}
+
+img {
+	vertical-align: baseline;
+}
+
+#content {
+	letter-spacing: 3px;
+	text-align: center;
+	padding-top: 15%;
+	text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+				 0px 8px 13px rgba(0,0,0,0.1),
+				 0px 18px 23px rgba(0,0,0,0.1);
+}
+
+/*#navbar {
+	margin-bottom: auto;
+	padding: 40px 0px 40px 42px;
+}
+
+#brand {
+	margin-top: 16px;
+	margin-left: 28px;
+	font-size: 24px;
+	word-spacing: 2px;
+	letter-spacing: 3px;
+	color: #4d6496;
+	font-weight: 700;
+}
+
+#nav-content-right {
+	font-size: 18px;
+	font-weight: 700;
+	padding-right: 20px;
+}*/
+
+#big-logo {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	height: 14%;
+	width: 14%;
+}
+
+#go-btn {
+	background-color: #2bd7cc;
+	border-color: #2bd7cc;
+	color: white;
+	font-size: 21px;
+	letter-spacing: 2px;
+	border-radius: 100px;
+	width: 260px;
+	padding: 20px 20px;
+	margin-top: 32px;
+}
+
+.btn:focus, .btn:active:focus, .btn:hover {
+  outline: none;
+  color: #fff !important;
+  background-color: #038670 !important;
+  border-color: #038670 !important;
+}
+
+/*.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+    outline: none;
+}*/
+

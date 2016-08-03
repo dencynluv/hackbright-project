@@ -27,15 +27,23 @@ app.jinja_env.undefined = StrictUndefined
 ##############################################################################
 # route functions
 
+
 @app.route('/')
 def index():
     """Landing page."""
+
+    return render_template("landing.html")
+
+
+@app.route('/sign-in-page', methods=['GET'])
+def show_signin_page():
+    """Signin page."""
 
     # check if the current_user is in a Flask session
     # else it gives me back the default value which is none
     current_session = flask_session.get('current_user', None)
 
-    return render_template("landing_page.html", session=current_session)
+    return render_template("signin_page.html", session=current_session)
 
 
 @app.route('/sign-up', methods=['GET'])
@@ -87,7 +95,7 @@ def process_sign_up():
 
     flash("An account already exists with this email address. Please Sign in.")
 
-    return redirect("/sign-in")
+    return redirect("/sign-in-page")
 
 
 @app.route('/sign-in', methods=['GET'])
@@ -114,7 +122,7 @@ def process_sign_in():
 
     except NoResultFound:
         flash("Email and/or password is incorrect! Try again.")
-        return redirect('/sign-in')
+        return redirect('/sign-in-page')
 
     flask_session['current_user'] = user.user_id
 
@@ -131,7 +139,7 @@ def user_sign_out():
     del flask_session['current_user']
     flash("You have successfully Signed Out.")
 
-    return redirect('/')
+    return redirect('/sign-in-page')
 
 
 @app.route('/homepage', methods=['GET'])
@@ -147,7 +155,7 @@ def show_homepage():
         notebook = user.notebooks[0]
 
     # Look up notes for user in DB, getting notebook_id from above
-        notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).all()
+        notes = db.session.query(Note).filter(Note.notebook_id == notebook.notebook_id).order_by(Note.note_id.desc()).all()
 
         # import pdb;pdb.set_trace()
         # Get all favorite_notes for current_user
@@ -187,7 +195,8 @@ def create_notebook():
         user2 = User.query.filter(User.email == email).one()
 
     except NoResultFound:
-        flash("Sorry. This user doesn't exist")
+        flash("Sorry. This user doesn't exist.")
+
         return redirect('/homepage')
 
     # instanciates notebook in the Notebook class
