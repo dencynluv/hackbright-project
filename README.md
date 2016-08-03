@@ -1,5 +1,6 @@
-#WOURDS
+WOURDS
 
+![Wourds Logo](/static/img/wourds_header.png)
 
 WOURDS is a shared chat notebook for you to share with someone you care. 
 
