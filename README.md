@@ -1,6 +1,5 @@
-WOURDS
+#WOURDS
 
-![Tagline Logo](/static/img/line-title.png)
 
 WOURDS is a shared chat notebook for you to share with someone you care. 
 
