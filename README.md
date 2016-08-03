@@ -1,6 +1,5 @@
-WOURDS
 
-![Wourds Logo](/static/img/wourds_header.png)
+![Wourds Header](/static/img/wourds_header.png)
 
 WOURDS is a shared chat notebook for you to share with someone you care. 
 
@@ -37,28 +36,28 @@ WOURDS is a fullstack web application built with modern web technologies.
 ####Register and Login
 Users sign up for an account and sign in to begin creating a notebook.
 
-![](/static/img/landing_page.png)
+![Landing Page](/static/img/landing_page.png)
 
 ![](/static/img/signin_page.png)
 
 ####Connecting
 Once logged in, the user enters the email of the person they want to share a notebook with. Using SQLAlchemy the PostgreSQL database is queried to check that the user they want to connect with already has an existing account. If the user has an existing account, a connection between the two users is established and a new notebook is created. If not, the user is notified that the user they are trying to connect with doesn't exist. 
 
-![](/static/img/connection_form.png)
+![Connection Form](/static/img/connection_form.png)
 
 ####The Notes
 Users can now begin creating notes by clicking the "Create A New Note" button. Once the modal pops up, the user can type a new note that has a set character limit. When submitted the new note is sent as a post AJAX/JSON request and stored in the PostgreSQL database. The note is then displayed for the users using Javascript, jQuery and AJAX. Users can also begin seeing a history display of all the notes passed between one another in a timeline format using Jinja. 
 
 When a new note is sent the user receiving the note is notified via text message using the Twilio API. This lets the user know that they have a new note waiting for them to be read.
 
-![](/static/img/note_screen.png)
+![Note Modal](/static/img/note_screen.png)
 
-![](/static/img/homepage.png)
+![Homepage](/static/img/homepage.png)
 
 ####Favorites
 Users can favorite a note by clicking on the heart located to the right of the note they sent. An event listener on the heart records the id of the note that was clicked then stores it as a favorited note in the PostgreSQL database. Using Javascript and jQuery, the heart on the note turns red allowing the user to get some feedback. The "Favorites" page is then updated with the user's favorited note, where they can see a collection of their favorited notes displayed using Jinja.
 
-![](/static/img/favorites_page.png)
+![Favorites Page](/static/img/favorites_page.png)
 
 
 ## <a name="install"></a>Installation
